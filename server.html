@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<form action="">               
+    Enter 1st number ; <input type="text" name="first">
+    Enter 2nd number : <input type="text" name="second"> 
+    <input type="submit" value="register">
+
+
+</form>
+</body>
+</html>
+
+
+////////////////////////////////////////////////
+<!-- server.java -->
+package abc;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/new")
+
+public class server extends HttpServlet {
+	
+	public void service(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		int x = Integer.parseInt(req.getParameter("f"));
+		int y = Integer.parseInt(req.getParameter("s"));
+		
+		int a = x*y;
+		
+		PrintWriter p = res.getWriter();
+		
+		p.println("Multi = "+a);
+		
+	
+		int sum = (int) req.getAttribute("add");
+		
+		p.println("Sum = "+sum);
+		
+	}
+	
+	
+}
+
+
+<!-- servlet.java -->
+
+package abc;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/url")
+
+public class Myservlet extends HttpServlet {
+	
+	public void service(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		int n1 = Integer.parseInt(req.getParameter("f"));
+		int n2 = Integer.parseInt(req.getParameter("s"));
+		
+		int z = n1+n2;
+		
+		PrintWriter p = res.getWriter();
+		
+		req.setAttribute("add", z);
+		
+		RequestDispatcher r = req.getRequestDispatcher("new");
+		r.forward(req, res);
+		
+	}
+}
